@@ -8,6 +8,7 @@ export const DISHES =
         label:'Hot',
         price:'4.99',
         featured: true,
+        avatar_url: './assets/images/uthappizza.png',
         description:'A unique combination of Indian Uthappam (pancake) and Italian pizza, topped with Cerignola olives, ripe vine cherry tomatoes, Vidalia onion, Guntur chillies and Buffalo Paneer.'                    
         },
         {
@@ -18,6 +19,7 @@ export const DISHES =
         label:'',
         price:'1.99',
         featured: false,
+        avatar_url: './assets/images/uthappizza.png',
         description:'Deep fried Zucchini coated with mildly spiced Chickpea flour batter accompanied with a sweet-tangy tamarind sauce'
         },
         {
@@ -28,6 +30,7 @@ export const DISHES =
         label:'New',
         price:'1.99',
         featured: false,
+        avatar_url: './assets/images/uthappizza.png',
         description:'A quintessential ConFusion experience, is it a vada or is it a donut?'
         },
         {
@@ -38,6 +41,7 @@ export const DISHES =
         label:'',
         price:'2.99',
         featured: false,
+        avatar_url: './assets/images/uthappizza.png',
         description:'A delectable, semi-sweet New York Style Cheese Cake, with Graham cracker crust and spiced with Indian cardamoms'
         }
     ];
