@@ -5,7 +5,6 @@ export default class App extends React.Component {
   render() {
     return (
       <Main />
-      // <Text>Hi its my mobile app</Text>
     );
   }
 }

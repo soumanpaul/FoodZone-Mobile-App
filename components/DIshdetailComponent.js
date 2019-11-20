@@ -3,7 +3,7 @@ import { View, Text } from 'react-native'
 import { Card } from 'react-native-elements';
 
 const RenderDish = (props) => {
-    const dish = this.props.dish;
+    const dish = props.dish;
     if(dish != null) {
         return (
             <Card
@@ -15,7 +15,7 @@ const RenderDish = (props) => {
             </Card>
         );
     }else {
-        return (<Videw></Videw>)
+        return (<View></View>)
     }
 }
 
