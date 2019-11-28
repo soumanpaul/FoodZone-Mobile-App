@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Platform, Image, StyleSheet, ScrollView } from 'react-native';
 import { createAppContainer, SafeAreaView } from 'react-navigation';
-import {createStackNavigator } from 'react-navigation-stack';
+import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
 import { Icon } from 'react-native-elements';
 
@@ -11,7 +11,28 @@ import Menu from './MenuComponent';
 import Dishdetail from './DIshdetailComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
+import Reservation from './ReservationComponent';
 
+import { connect } from 'react-redux';
+import {  fetchLeaders, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
+
+const mapStateToProps = state => {
+  return {
+    dishes: state.dishes,
+    comments: state.comments,
+    promotions: state.promotions,
+    leaders: state.leaders
+  }
+}
+
+const mapDispatchToProps = dispatch => ({
+  fetchDishes: () => dispatch(fetchDishes()),
+  fetchComments: () => dispatch(fetchComments()),
+  fetchPromos: () => dispatch(fetchPromos()),
+  fetchLeaders: () => dispatch(fetchLeaders()),
+})
+
+// Menu stack navigator
 
 const MenuNavigator = createStackNavigator({
   Menu: { 
@@ -26,7 +47,9 @@ const MenuNavigator = createStackNavigator({
         headerTitleStyle: {color: "#fff"}      
       })
     },
-  Dishdetail: { screen: Dishdetail,
+  
+  Dishdetail: { 
+    screen: Dishdetail,
     navigationOptions: ({ navigation }) => ({
         headerStyle: { backgroundColor: "#512DA8"},
         headerStyle: { backgroundColor: "#512DA8"},
@@ -35,6 +58,9 @@ const MenuNavigator = createStackNavigator({
       })
   }
 });
+
+
+// Home stack navigator
 
 const HomeNavigator = createStackNavigator({
   Home: { 
@@ -54,6 +80,8 @@ const HomeNavigator = createStackNavigator({
   },
 });
 
+// Contact stack navigator
+
 const ContactNavigator = createStackNavigator({
   Home: { screen: Contact,
     navigationOptions: ({ navigation }) => ({
@@ -71,6 +99,9 @@ const ContactNavigator = createStackNavigator({
   }
 });
 
+
+// About stack navigator
+
 const AboutNavigator = createStackNavigator({
   Home: { screen: About,
     navigationOptions: ({ navigation }) => ({
@@ -87,6 +118,28 @@ const AboutNavigator = createStackNavigator({
     })
   },
 });
+
+// Reservation navigator
+
+const ReservationNavigator = createStackNavigator({
+  Reservation: { screen: Reservation }
+}, {
+  navigationOptions: ({ navigation }) => ({
+    headerStyle: {
+        backgroundColor: "#512DA8"
+    },
+    headerTitleStyle: {
+        color: "#fff"            
+    },
+    headerTintColor: "#fff",
+    headerLeft: <Icon name="menu" size={24}
+      iconStyle={{ color: 'white' }} 
+      onPress={ () => navigation.navigate('DrawerToggle') } />    
+  })
+})
+
+
+// A component to draw sidebar
 
 const CustomDrawerContentComponent = (props) => (
   <ScrollView>
@@ -108,12 +161,15 @@ const CustomDrawerContentComponent = (props) => (
   </ScrollView>
 );
 
+// Navigation container 
+
 const MenuContainer = createAppContainer(MenuNavigator);
 const HomeContainer = createAppContainer(HomeNavigator);
 const ContactContainer = createAppContainer(ContactNavigator);
 const AboutContainer = createAppContainer(AboutNavigator);
 
 
+// combining four navigation container to create Drawer Navigation
 
 const MainNavigator = createDrawerNavigator({
   Home: {
@@ -175,15 +231,42 @@ const MainNavigator = createDrawerNavigator({
          />
       ) 
     } 
-  }
+  },
+  Reservation:
+      { screen: ReservationNavigator,
+        navigationOptions: {
+          title: 'Reserve Table',
+          drawerLabel: 'Reserve Table',
+          drawerIcon: ({ tintColor, focused }) => (
+            <Icon
+              name='cutlery'
+              type='font-awesome'            
+              size={24}
+              iconStyle={{ color: tintColor }}
+            />
+          ),
+        }
+      }
 }, {
   drawerBackgroundColor: "#D1C4E9",
   contentComponent: CustomDrawerContentComponent
 }); 
 
+ 
+// Main navigation container
+
 const MainContainer = createAppContainer(MainNavigator);
 
+// Main component
+
 class Main extends Component {
+
+  componentDidMount() {
+    this.props.fetchDishes();
+    this.props.fetchComments();
+    this.props.fetchPromos();
+    this.props.fetchLeaders();
+  }
 
   render() {
     return (
@@ -215,5 +298,5 @@ const styles = StyleSheet.create({
     height: 60
   }
 })
-  
-export default Main;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -1,24 +1,20 @@
-// reducer for promotions
-
 import * as ActionTypes from './ActionTypes';
 
-export const leaders = (state = {
-    isLoading: true,
+export const Promotions = (state = {
+    isLoading: true, 
     errMess: null,
-    promotions: [],
-    }, action) => {
+    promotions: []
+}, action) => {
+    switch(action.type) {
+        case ActionTypes.ADD_PROMOS:
+            return {...state, isLoading: false, errMess: null, promotions:action.payload}
+        
+        case ActionTypes.PROMOS_LOADING:
+            return {...state, isLoading: true, errMess: null, promotions: []}
 
-        switch(action.type) {
-            case ActionTypes.ADD_PROMOS:
-                return {...state, isLoading: false, errMess: null, promotions: action.payload}
-            
-            case ActionTypes.PROMOS_LOADING:
-                    return {...state, isLoading: true, errMess: null, promotions:[] }
-
-            case ActionTypes.PROMOS_FAILED:
-                    return {...state, isLoading: false, errMess: action.payload, promotions:[] }
-            default:
-                return state;        
-
-        }
+        case ActionTypes.PROMOS_FAILED:
+            return {...state, isLoading: false, errMess: action.payload, promotions:[]}
+        default:
+            return state;
     }
+}

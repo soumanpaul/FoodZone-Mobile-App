@@ -1,54 +1,71 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList, ScrollView} from 'react-native'
+import { Text, FlatList, ScrollView} from 'react-native'
 import { Card, ListItem } from 'react-native-elements';
-import { LEADERS } from '../shared/leaders'; 
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
 
-class ContactComponent extends Component {
 
-    constructor (props) {
-        super(props);
-        this.state = {
-            leaders: LEADERS
-        };
+const mapStateToProps = state => {
+    return {
+      leaders: state.leaders
     }
+  }
+    
+
+function History() {
+    return (
+        <Card
+            title="Our History">
+             <Text
+                style={{margin: 10}}>
+                Started in 2010, Ristorante con Fusion quickly established 
+            </Text>
+
+            <Text
+                style={{margin: 10}}>
+                The restaurant traces its humble beginnings to the Frying 
+            </Text>
+        </Card>
+    );
+}
+
+
+class About extends Component {
+
+    static navigationOptions = {
+        title: 'About Us',
+    };
 
     render() {
+        const { params } = this.props.navigation.state;
 
         const renderLeaders = ({item, index}) => {
             return (
                     <ListItem
+                        roundAvatar
                         key={index}
                         title={item.name}
                         subtitle={item.description}
+                        subtitleNumberOfLines={15}
                         hideChevron={true}
-                        leftAvatar={{ source: require('../assets/images/uthappizza.png')}}
-                        
-                      />
+                        leftAvatar={{source: {uri: baseUrl + item.image}}}
+                    />
             );
         };
-
+        
         return (
             <ScrollView>
-                <Card title="Our History">
-                <Text>Cards are a great way to display information, usually containing content and actions 
-                    about a single subject. Cards can contain images, buttons, text and more
-                </Text>
-                
-                
-                <Text>Cards are a great way to display information, usually containing content and actions 
-                    about a single subject. Cards can contain images, buttons, text and more
-                </Text>
-                
-                </Card>
+                <History />
                 <Card title="Corporate Leadership" >
                 <FlatList 
-                    data={this.state.leaders}
+                    data={this.props.leaders.leaders}
                     renderItem={renderLeaders}
                     keyExtractor={item => item.id.toString()}
-                />
+                    />
                 </Card>                
             </ScrollView>
-        )
+        );
     }
 }
-export default ContactComponent;
+
+export default connect(mapStateToProps)(About);
