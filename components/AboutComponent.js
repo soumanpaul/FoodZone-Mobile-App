@@ -11,7 +11,6 @@ const mapStateToProps = state => {
     }
   }
     
-
 function History() {
     return (
         <Card
@@ -48,7 +47,7 @@ class About extends Component {
                         subtitle={item.description}
                         subtitleNumberOfLines={15}
                         hideChevron={true}
-                        leftAvatar={{source: {uri: baseUrl + item.image}}}
+                        leftAvatar={{source: {uri: `http://192.168.2.23:3001/${item.image}`}}}
                     />
             );
         };

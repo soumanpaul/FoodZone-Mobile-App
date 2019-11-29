@@ -26,7 +26,7 @@ class Menu extends React.Component {
                         caption={item.description}
                         featured
                         onPress={() => this.props.navigation.navigate('Dishdetail', { dishId: item.id })}
-                        imageSrc={{ uri: baseUrl + item.image }}
+                        imageSrc={{ uri: `http://192.168.2.23:3001/${item.image}` }}
                       />
             );
         };

@@ -21,7 +21,9 @@ function RenderItem(props) {
             <Card 
                 featuredTitle={item.name}
                 featuredSubtitle={item.designation}
-                image={{uri: baseUrl + item.image}}>
+                // image={{uri: baseUrl + item.image}}
+                image={{ uri: `http://192.168.2.23:3001/${item.image}` }}
+                >
                 
                 <Text style={{margin: 10}}>
                     {item.description}
@@ -43,13 +45,13 @@ class Home extends Component{
         
         return (
             <ScrollView>
-                <View><Text>Home Page</Text></View>
-                {/* <RenderItem item={this.props.dishes.dishes.filter(dish => dish.featured)[0]} />
+                <RenderItem item={this.props.dishes.dishes.filter(dish => dish.featured)[0]} />
                 <RenderItem item={this.props.promotions.promotions.filter((promo) => promo.featured)[0]} />
-                <RenderItem item={this.props.leaders.leaders.filter((leader) => leader.featured)[0]} /> */}
+                <RenderItem item={this.props.leaders.leaders.filter((leader) => leader.featured)[0]} />
             </ScrollView>
         )
     }
 }
 
 export default connect(mapStateToProps)(Home);
+
