@@ -1,10 +1,12 @@
 import React from 'react'
-import { View, Text , ScrollView, FlatList, Modal,  StyleSheet, Button} from 'react-native'
+import { View, Text , ScrollView, FlatList, Modal,  StyleSheet, Button, PanResponder, Alert} from 'react-native'
 import { Card, Icon, Rating, Input } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { postFavorite } from '../redux/ActionCreators';
+import * as Animatable from 'react-native-animatable';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 
 
 const mapStateToProps = state => {
@@ -31,7 +33,8 @@ class RenderDish extends React.Component {
             rating: 3
         }    
     }
-    
+
+    handleViewRef = ref => this.view =  ref;
     toggleModal() {
         this.setState({ showModal: !this.state.showModal })
     }
@@ -44,11 +47,57 @@ class RenderDish extends React.Component {
         });
     }
 
+    
     render() {
+
         const dish = this.props.dish;
+
+        handleViewRef = ref => this.view  = ref;
+
+        const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+            if(dx < -200) 
+                return true;
+            else 
+                return false;    
+        };
+        const panResponder = PanResponder.create({
+            onStartShouldSetPanResponder: (e, gestureState) => {
+                return true;
+            },
+            // onPanResponderGrant: () => {
+            //     this.view.rubberBand(1000)
+            //         .then(endState => console.log(endState.finished ? 'finished' : 'cancelled'))
+            // },  
+            onPanResponderEnd: (e, gestureState) => {
+                if (recognizeDrag(gestureState))
+                    Alert.alert(
+                        'Add to Favorites?',
+                        'Are you sure you wish to add ' + dish.name + 'to you favorites?',
+                        [
+                            {
+                                text: 'Cancel',
+                                onPress: () => console.log('Cancel pressed'),
+                                style: 'cancel'
+                            },
+                            {
+                                text: 'OK',
+                                onPress: () => this.props.favorite ?  console.log('Already favorite') : this.props.onPress()
+                            }
+                        ],
+                        { cancelable: false }
+                    )
+                    return true;
+                
+            }   
+        });
+    
     
         if(dish != null) {
             return (
+                <Animatable.View animation="fadeInDown" duration={2000} delay={1000}
+                    ref={this.hanleViewRef}
+                    {...panResponder.panHandlers}>
+
                 <Card
                     featuredTitle={dish.name}
                     image={{ uri: `http://192.168.2.23:3001/${dish.image}` }}>
@@ -70,6 +119,7 @@ class RenderDish extends React.Component {
                         type='font-awesome'
                         color='#5500FF'
                         onPress={() => this.handelComments() }
+                        // onPress={() => props.onShowModal() }
                         />
                     <Modal
                          animationType={'slide'}
@@ -108,6 +158,7 @@ class RenderDish extends React.Component {
                     </Modal>    
                     
             </Card>
+        </Animatable.View>
         );
     }else {
         return (<View></View>)
@@ -163,6 +214,8 @@ function RenderComments(props) {
     }
 
     return (
+        <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
+        
         <Card title="Comments">
             <FlatList 
                 data={comments}
@@ -170,6 +223,7 @@ function RenderComments(props) {
                 keyExtractor={item => item.id.toString()} 
                 />
         </Card>
+        </Animatable.View>
     )
 }
 
