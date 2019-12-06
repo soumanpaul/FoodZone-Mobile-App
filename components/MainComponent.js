@@ -12,6 +12,7 @@ import Dishdetail from './DIshdetailComponent';
 import Contact from './ContactComponent';
 import About from './AboutComponent';
 import Reservation from './ReservationComponent';
+import Favorites from './FavariteComponent';
 
 import { connect } from 'react-redux';
 import {  fetchLeaders, fetchDishes, fetchComments, fetchPromos } from '../redux/ActionCreators';
@@ -122,9 +123,28 @@ const AboutNavigator = createStackNavigator({
 // Reservation navigator
 
 const ReservationNavigator = createStackNavigator({
-  Reservation: { screen: Reservation }
-}, {
+  Reservation: { screen: Reservation 
+, 
   navigationOptions: ({ navigation }) => ({
+    headerLeft: <Icon name="menu" size={24}
+        color='white'
+        onPress={() => navigation.toggleDrawer()} />,
+    headerStyle: {
+      backgroundColor: "#512DA8"
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+        color: "#fff"            
+    }    
+  })
+}
+})
+
+
+const FavoritesNavigator = createStackNavigator({
+  Favorites: { screen: Favorites 
+, 
+ navigationOptions: ({ navigation }) => ({
     headerStyle: {
         backgroundColor: "#512DA8"
     },
@@ -134,8 +154,9 @@ const ReservationNavigator = createStackNavigator({
     headerTintColor: "#fff",
     headerLeft: <Icon name="menu" size={24}
       iconStyle={{ color: 'white' }} 
-      onPress={ () => navigation.navigate('DrawerToggle') } />    
+      onPress={ () => navigation.toggleDrawer()} />    
   })
+}
 })
 
 
@@ -240,6 +261,21 @@ const MainNavigator = createDrawerNavigator({
           drawerIcon: ({ tintColor, focused }) => (
             <Icon
               name='cutlery'
+              type='font-awesome'            
+              size={24}
+              iconStyle={{ color: tintColor }}
+            />
+          ),
+        }
+      },
+      Favorites:
+      { screen: FavoritesNavigator,
+        navigationOptions: {
+          title: 'My Favorites',
+          drawerLabel: 'My Favorites',
+          drawerIcon: ({ tintColor, focused }) => (
+            <Icon
+              name='heart'
               type='font-awesome'            
               size={24}
               iconStyle={{ color: tintColor }}
