@@ -100,7 +100,7 @@ class RenderDish extends React.Component {
 
                 <Card
                     featuredTitle={dish.name}
-                    image={{ uri: `http://192.168.2.23:3001/${dish.image}` }}>
+                    image={{ uri: `http://192.168.2.13:3001/${dish.image}` }}>
                     <Text style={{margin: 10}}>
                         {dish.description}
                     </Text>

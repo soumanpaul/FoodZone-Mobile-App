@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Modal } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Picker, Switch, Button, Modal, Alert } from 'react-native';
 import { Card } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
+import * as Animatable from 'react-native-animatable';
+import { Notifications } from 'expo';
+
+import * as Permissions from 'expo-permissions';
 
 class Reservation extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             guests: 1,
             smoking: false,
@@ -26,8 +29,29 @@ class Reservation extends Component {
 
     handleReservation() {
         console.log(JSON.stringify(this.state));
-       this.toggleModal()
+        this.toggleModal()
+
+        let message = 'Number of Gustes: ' + this.state.guests +
+                        '\n Smoking? ' + this.state.smoking + 
+                        '\nDate and Time: ' + this.state.date;
+        Alert.alert(
+            'Your Reservation OK?',
+            message,
+            [
+                {text: 'Cancle', onPress: () => {
+                    console.log('Reservation Cnacelled');
+                    this.resetForm();
+                }, style: 'cancel'
+            },{text: 'OK', onPress: () => {
+                this.presentLoaclNotification(this.state.date)
+                this.resetForm();
+                }
+                }
+            ],
+            { cancelable: false}
+        );                        
     }
+
     resetForm() {
         this.setState({
             guests: 1,
@@ -37,6 +61,33 @@ class Reservation extends Component {
         });
     }
     
+    async obtainNotificationPermission() {
+        let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if ( permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS)
+            if (permission.status !== 'granted') {
+                Alert.alert("Permission not granted to show notifications");
+            }
+        }
+        return permission;
+    }
+
+    async presentLoaclNotification(date) {
+        await this.obtainNotificationPermission();
+        Notifications.presentLocalNotificationAsync({
+            title: 'Your Reservation',
+            body: 'Reservation for' + date + ' requested', 
+            ios: {
+                sound: true
+            },
+            android: {
+                sound:  true,
+                vibrate: true,
+                color: '#512DA8' 
+            }
+        });
+    }
+
     render() {
         return(
             <ScrollView>

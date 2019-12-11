@@ -36,7 +36,7 @@ function RenderItem(props) {
                     featuredTitle={item.name}
                     featuredSubtitle={item.designation}
                     // image={{uri: baseUrl + item.image}}
-                    image={{ uri: `http://192.168.2.23:3001/${item.image}` }}
+                    image={{ uri: `http://192.168.2.13:3001/${item.image}` }}
                     >
                     
                     <Text style={{margin: 10}}>

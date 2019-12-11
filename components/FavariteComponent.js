@@ -68,7 +68,7 @@ class Favorites extends React.Component {
                     subtitle={item.discription}
                     hideChevron={true}
                     onPress={() => navigate('Dishdetail', { dishId: item.id })}
-                    leftAvatar={{ source: { uri: `http://192.168.2.23:3001/${item.image}` }}} />
+                    leftAvatar={{ source: { uri: `http://192.168.2.13:3001/${item.image}` }}} />
                 </Animatable.View>    
             </Swipeout>
             )
