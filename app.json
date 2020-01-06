@@ -1,32 +1,15 @@
 {
   "expo": {
-    "name": "Restaurants",
-    "slug": "restaurant-mobile-app",
+    "name": "Food Zone",
+    "slug": "foodzone",
     "privacy": "public",
-    "sdkVersion": "35.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "sdkVersion": "36.0.0",
+    "icon": "./icon.png",
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.souman.souman"
     },
-    "description": "",
-    "githubUrl": "https://github.com/soumanpaul/Restaurant-Mobile-App"
-  }
+    "android": {
+      "package": "com.souman.souman"
+    }
+   }
 }

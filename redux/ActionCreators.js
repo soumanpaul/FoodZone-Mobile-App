@@ -4,7 +4,7 @@ import { baseUrl } from '../shared/baseUrl';
 
 
 export const fetchComments = () => (dispatch) => {
-    return fetch('http://192.168.2.13:3001/comments')
+    return fetch('http://192.168.2.12:3001/comments')
     .then(response => {
         if (response.ok) {
           return response;
@@ -37,7 +37,7 @@ export const fetchDishes = () => (dispatch) => {
 
     dispatch(dishesLoading());
 
-    return fetch('http://192.168.2.13:3001/dishes')
+    return fetch('http://192.168.2.12:3001/dishes')
     .then(response => {
         if (response.ok) {
           return response;
@@ -74,7 +74,7 @@ export const fetchPromos = () => (dispatch) => {
     
     dispatch(promosLoading());
 
-    return fetch('http://192.168.2.13:3001/promotions')
+    return fetch('http://192.168.2.12:3001/promotions')
     .then(response => {
         if (response.ok) {
             return response;
@@ -111,7 +111,7 @@ export const fetchLeaders = () => (dispatch) => {
     
     dispatch(leadersLoading());
 
-    return fetch('http://192.168.2.13:3001/leaders')
+    return fetch('http://192.168.2.12:3001/leaders')
     .then(response => {
         if (response.ok) {
             return response;

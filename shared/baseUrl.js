@@ -1,1 +1,2 @@
-export const baseUrl = 'http://192.168.2.13:3001'
+export const baseUrl = 'https://foodzone2020.herokuapp.com/'
+// https://foodzone2020.herokuapp.com/api/v1

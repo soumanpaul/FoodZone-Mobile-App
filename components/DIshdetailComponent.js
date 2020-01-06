@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text , ScrollView, FlatList, Modal,  StyleSheet, Button, PanResponder, Alert} from 'react-native'
+import { View, Text , ScrollView, FlatList, Modal,  StyleSheet, SafeAreaView, Button, PanResponder, Alert, Share} from 'react-native'
 import { Card, Icon, Rating, Input } from 'react-native-elements';
 
 import { connect } from 'react-redux';
@@ -90,7 +90,15 @@ class RenderDish extends React.Component {
                 
             }   
         });
-    
+    const shareDish = ( title, message, url) => {
+        Share.share({
+            title: title,
+            message: title + ': ' + message + ' ' + url,
+            url: url
+        },{
+            dialogTitle: 'Share ' + title
+        });
+    }
     
         if(dish != null) {
             return (
@@ -100,7 +108,7 @@ class RenderDish extends React.Component {
 
                 <Card
                     featuredTitle={dish.name}
-                    image={{ uri: `http://192.168.2.13:3001/${dish.image}` }}>
+                    image={{ uri: `http://192.168.2.12:3001/${dish.image}` }}>
                     <Text style={{margin: 10}}>
                         {dish.description}
                     </Text>
@@ -117,10 +125,19 @@ class RenderDish extends React.Component {
                         reverse
                         name='pencil'
                         type='font-awesome'
-                        color='#5500FF'
+                        color='#512DA8'
                         onPress={() => this.handelComments() }
                         // onPress={() => props.onShowModal() }
                         />
+                    <Icon 
+                        raised
+                        reverse
+                        name='share'
+                        type='font-awesome'
+                        color='#51D2A8'
+                        style={styles.cardItem}
+                        onPress={() => shareDish(dish.name, dish.description, baseUrl + dish.image)}
+                    />    
                     <Modal
                          animationType={'slide'}
                          transparent={false}
@@ -259,6 +276,7 @@ class Dishdetail extends React.Component {
                 />
                 <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
             </ScrollView>
+            
         );    
     }
 }

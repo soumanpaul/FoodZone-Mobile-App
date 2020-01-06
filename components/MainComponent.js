@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, Platform, Image, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, Platform, Image, StyleSheet, ScrollView, ToastAndroid } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 import { createAppContainer, SafeAreaView } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation-drawer';
@@ -40,7 +41,7 @@ const MenuNavigator = createStackNavigator({
   Menu: { 
     screen: Menu,
     navigationOptions: ({ navigation }) => ({
-      headerLeft: <Icon name="menu" size={24}
+      headerLeft: () => <Icon name="menu" size={24}
         color='white'
         onPress={() => navigation.toggleDrawer()} />,
         headerStyle: { backgroundColor: "#512DA8"},
@@ -68,7 +69,7 @@ const HomeNavigator = createStackNavigator({
   Home: { 
     screen: Home,
     navigationOptions: ({ navigation }) => ({
-      headerLeft: <Icon name="menu" size={24}
+      headerLeft: () =><Icon name="menu" size={24}
           color='white'
           onPress={() => navigation.toggleDrawer()} />,
           headerStyle: {
@@ -87,7 +88,7 @@ const HomeNavigator = createStackNavigator({
 const ContactNavigator = createStackNavigator({
   Home: { screen: Contact,
     navigationOptions: ({ navigation }) => ({
-      headerLeft: <Icon name="menu" size={24}
+      headerLeft: () =><Icon name="menu" size={24}
           color='white'
           onPress={() => navigation.toggleDrawer()} />,
           headerStyle: {
@@ -107,7 +108,7 @@ const ContactNavigator = createStackNavigator({
 const AboutNavigator = createStackNavigator({
   Home: { screen: About,
     navigationOptions: ({ navigation }) => ({
-      headerLeft: <Icon name="menu" size={24}
+      headerLeft: () =><Icon name="menu" size={24}
           color='white'
           onPress={() => navigation.toggleDrawer()} />,
       headerStyle: {
@@ -127,7 +128,7 @@ const ReservationNavigator = createStackNavigator({
   Reservation: { screen: Reservation 
 , 
   navigationOptions: ({ navigation }) => ({
-    headerLeft: <Icon name="menu" size={24}
+    headerLeft: () =><Icon name="menu" size={24}
         color='white'
         onPress={() => navigation.toggleDrawer()} />,
     headerStyle: {
@@ -153,7 +154,7 @@ const FavoritesNavigator = createStackNavigator({
         color: "#fff"            
     },
     headerTintColor: "#fff",
-    headerLeft: <Icon name="menu" size={24}
+    headerLeft: () =><Icon name="menu" size={24}
       iconStyle={{ color: 'white' }} 
       onPress={ () => navigation.toggleDrawer()} />    
   })
@@ -171,7 +172,7 @@ const LoginNavigator = createStackNavigator({
         color: "#fff"            
     },
     headerTintColor: "#fff",
-    headerLeft: <Icon name="menu" size={24}
+    headerLeft: () =><Icon name="menu" size={24}
       iconStyle={{ color: 'white' }} 
       onPress={ () => navigation.toggleDrawer()} />    
   })
@@ -193,7 +194,7 @@ const CustomDrawerContentComponent = (props) => (
                     style={styles.drawerImage} />
             </View>
             <View style={{flex: 2}}>
-              <Text style={styles.drawerHeaderText}>Ristorante Con Fusion</Text>
+              <Text style={styles.drawerHeaderText}>Food Zone</Text>
             </View>
         </View>
         <DrawerItems {...props} />
@@ -332,12 +333,45 @@ const MainContainer = createAppContainer(MainNavigator);
 
 class Main extends Component {
 
+  
   componentDidMount() {
     this.props.fetchDishes();
     this.props.fetchComments();
     this.props.fetchPromos();
     this.props.fetchLeaders();
+
+    // NetInfo.getConnectionInfo()
+    //     .then((connectionInfo) => {
+    //       ToastAndroid.show('Initital Network Connectivaty Type: '
+    //       + connectionInfo.type + ', effectiveType:  ' + connectionInfo.effectiveType, 
+    //       ToastAndroid.LONG)
+    //     });
+
+    //     NetInfo.addEventListener( state =>  this.handleConnectivityChange(state))
   }
+
+  // componentWillUnmount() {
+  //   NetInfo.removeEventListener(state =>  this.handleConnectivityChange(state));
+  // }
+
+  // handleConnectivityChange = (connectionInfo) => {
+  //   switch (connectionInfo.type) {
+  //     case 'none':
+  //         ToastAndroid.show('You are now offline!', ToastAndroid.LONG)
+  //         break;
+  //     case 'wifi':
+  //         ToastAndroid.show('You are now connected to Wifi!', ToastAndroid.LONG)
+  //         break;
+  //     case 'cellular':
+  //         ToastAndroid.show('You are now connected to  Cellular!', ToastAndroid.LONG)
+  //         break;
+  //     case 'unknown':
+  //         ToastAndroid.show('You  now have an unknown connection ', ToastAndroid.LONG)
+  //         break;
+  //     default: 
+  //       break;
+  //   }
+  // }
 
   render() {
     return (
