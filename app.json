@@ -3,7 +3,7 @@
     "name": "Food Zone",
     "slug": "foodzone",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "44.0.0",
     "icon": "./icon.png",
     "ios": {
       "bundleIdentifier": "com.souman.souman"
